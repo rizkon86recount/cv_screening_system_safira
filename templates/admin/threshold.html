@@ -1,0 +1,92 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Threshold Settings{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-sliders-h me-2"></i>Pengaturan Kategori
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-7 col-xl-6">
+
+        <!-- CARD -->
+        <div class="card shadow border-0">
+
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-cogs me-2"></i>
+                    Kategori Skor Kesesuaian
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST">
+
+                    <!-- RECOMMENDED -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            Recommended Similarity Score
+                        </label>
+
+                        <input type="number"
+                               class="form-control"
+                               name="recommended_threshold"
+                               step="0.01"
+                               min="0"
+                               max="1"
+                               value="{{ config.recommended_threshold }}"
+                               required>
+
+                        <div class="form-text">
+                            Kandidat dengan similarity score ≥ nilai ini akan masuk kategori
+                            <span class="badge bg-success">
+                                Recommended
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- INFO BOX -->
+                    <div class="alert alert-info border-0">
+                        <h6 class="fw-bold mb-2">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Current Decision Logic
+                        </h6>
+
+                        <ul class="mb-0">
+                            <li>
+                                Score ≥ 
+                                <strong>{{ config.recommended_threshold }}</strong>
+                                → Recommended
+                            </li>
+
+                            <li>
+                                Score &lt; 
+                                <strong>{{ config.recommended_threshold }}</strong>
+                                → Not Recommended
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- BUTTON -->
+                    <div class="d-flex justify-content-end">
+                        <button type="submit"
+                                class="btn btn-primary px-4">
+
+                            <i class="fas fa-save me-2"></i>
+                            Save Settings
+
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,269 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Detail Pelamar</h1>
+    <div class="btn-toolbar mb-2 mb-md-0 gap-2">
+        <form method="POST" action="{{ url_for('process_screening', applicant_id=applicant.id) }}">
+            <button type="submit" class="btn btn-warning">
+                🔄 Re-screening
+            </button>
+        </form>
+
+        <a href="{{ url_for('generate_applicant_summary_pdf', applicant_id=applicant.id) }}"
+        class="btn btn-danger"
+        target="_blank">
+
+            <i class="fas fa-file-pdf me-1"></i>
+            Summary
+
+        </a>
+
+        <a href="{{ url_for('admin_applicants') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Kembali
+        </a>
+    </div>
+</div>
+
+<div class="row">
+
+    <!-- ✅ INFORMASI PELAMAR (KIRI) -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user me-2"></i>Informasi Pelamar</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Nama Lengkap:</th>
+                        <td>{{ applicant.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Telepon:</th>
+                        <td>{{ applicant.phone or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ applicant.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tanggal Lahir:</th>
+                        <td>{{ applicant.birth_date or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Usia:</th>
+                        <td>{{ applicant.age or '-' }} Tahun</td>
+                    </tr>
+                    <tr>
+                        <th>Pendidikan:</th>
+                        <td>{{ applicant.education or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Universitas:</th>
+                        <td>{{ applicant.school_name or '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Jurusan:</th>
+                        <td>{{ applicant.major or '-' }}</td>
+                    </tr>
+
+                    {% if applicant.has_experience == 'yes' %}
+
+                    <tr>
+                        <th>Pengalaman Kerja:</th>
+                        <td>
+                            <span class="badge bg-success">
+                                Memiliki Pengalaman Kerja
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Perusahaan Terakhir:</th>
+                        <td>{{ applicant.company_name or '-' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Posisi Terakhir:</th>
+                        <td>{{ applicant.position or '-' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Tanggal Mulai:</th>
+                        <td>{{ applicant.work_start or '-' }}</td>
+                    </tr>
+
+                    {% if applicant.still_working == 'yes' %}
+
+                    <tr>
+                        <th>Status:</th>
+                        <td>
+                            <span class="badge bg-primary">
+                                Masih Bekerja
+                            </span>
+                        </td>
+                    </tr>
+
+                    {% else %}
+
+                    {% if applicant.work_end %}
+
+                    <tr>
+                        <th>Tanggal Selesai:</th>
+                        <td>{{ applicant.work_end }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Lama Bekerja:</th>
+                        <td>{{ applicant.work_duration or '-' }}</td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <th>Status Pekerjaan:</th>
+                        <td>
+                            <span class="badge bg-primary">
+                                Masih Bekerja
+                            </span>
+                        </td>
+                    </tr>
+
+                    {% endif %}
+
+                    {% endif %}
+
+                    {% endif %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ✅ HASIL SCREENING (KANAN) -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Hasil Screening</h5>
+            </div>
+            <div class="card-body">
+                {% if screening_result %}
+                <table class="table table-borderless">
+
+                    <tr>
+                        <th>Lowongan:</th>
+                        <td>
+                            {% if applicant.job %}
+                                <strong>{{ applicant.job.title }}</strong>
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tanggal Apply:</th>
+                        <td>{{ applicant.applied_at_local.strftime('%d %b %Y %H:%M') }}</td>
+                    </tr>
+                    <tr>
+                        <th width="50%">Similarity Score (MPNet):</th>
+                        <td>
+                            <span class="badge bg-{% if screening_result.similarity_score >= 0.6 %}success{% else %}danger{% endif %}">
+                                {{ "%.3f"|format(screening_result.similarity_score) }}
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Final Decision:</th>
+                        <td>
+                            <span class="badge bg-{% if screening_result.final_decision == 'recommended' %}success{% else %}danger{% endif %}">
+                                {{ screening_result.final_decision.replace('_', ' ')|title }}
+                            </span>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <!-- INTERPRETASI -->
+                <div class="mt-3 p-2 bg-light rounded">
+                    <small class="text-muted">Interpretasi Skor:</small>
+                    <div class="d-flex flex-wrap gap-2 mt-1">
+                        <small><span class="badge bg-success">≥ 0.6</span> Recommended</small>
+                        <small><span class="badge bg-danger">&lt; 0.6</span> Not Recommended</small>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="text-center text-muted py-3">
+                    <i class="fas fa-clock fa-2x mb-2"></i>
+                    <p>Belum dilakukan screening</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CV Content and Actions -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-file-alt me-2"></i>CV Content
+                </h5>
+                {% if applicant.cv_file_path %}
+                <div class="d-flex gap-2">
+                  <!-- <a href="{{ url_for('view_cv', applicant_id=applicant.id) }}"
+                    class="btn btn-light btn-sm"
+                    target="_blank">
+                        <i class="fas fa-eye me-1"></i>View CV
+                    </a> -->
+                    <a href="{{ url_for('download_cv', applicant_id=applicant.id) }}"
+                    class="btn btn-light btn-sm">
+                        <i class="fas fa-download me-1"></i>Download CV
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if applicant.cv_text_content %}
+                <div class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">
+                    <pre class="mb-0">{{ applicant.cv_text_content }}</pre>
+                </div>
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-file-alt fa-2x mb-2"></i>
+                    <p>CV content tidak tersedia</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Job Description for Reference -->
+{% if applicant.job %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Deskripsi Lowongan</h5>
+            </div>
+            <div class="card-body">
+                <h6>Deskripsi Pekerjaan:</h6>
+                <p class="mb-3">{{ applicant.job.description }}</p>
+                
+                <h6>Tanggung Jawab:</h6>
+                <p class="mb-3">{{ applicant.job.responsibilities|replace('\n', '<br>')|safe }}</p>
+
+                <h6>Persyaratan:</h6>
+                <p class="mb-0">{{ applicant.job.requirements|replace('\n', '<br>')|safe }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,599 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row g-4">
+
+        <!-- LEFT: JOB DETAIL -->
+        <div class="col-lg-5">
+            <div class="card shadow h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-briefcase me-2"></i>{{ job.title }}
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    {% if job.description %}
+                    <h6>
+                        <i class="fas fa-info-circle me-2"></i>
+                        Deskripsi Pekerjaan
+                    </h6>
+
+                    <p>{{ job.description }}</p>
+                    {% endif %}
+
+                    {% if job.responsibilities %}
+                    <h6 class="mt-4">
+                        <i class="fas fa-list me-2"></i>
+                        Tanggung Jawab
+                    </h6>
+
+                    <p>
+                        {{ job.responsibilities|replace('\n', '<br>')|safe }}
+                    </p>
+                    {% endif %}
+
+                    {% if job.requirements %}
+                    <h6 class="mt-4">
+                        <i class="fas fa-list me-2"></i>
+                        Persyaratan
+                    </h6>
+
+                    <p>
+                        {{ job.requirements|replace('\n', '<br>')|safe }}
+                    </p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: FORM -->
+        <div class="col-lg-7">
+
+            <div class="card shadow">
+
+                <div class="card-header gradient-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-paper-plane me-2"></i>
+                        Apply Sekarang
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        <input type="hidden"
+                               name="job_id"
+                               value="{{ job.id }}">
+
+                        <!-- ========================= -->
+                        <!-- DATA DIRI -->
+                        <!-- ========================= -->
+
+                        <h4 class="fw-bold mb-4">
+                            Data Diri
+                        </h4>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Nama Lengkap *
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Email *
+                            </label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Nomor Telepon *
+                            </label>
+
+                            <input type="tel"
+                                   class="form-control"
+                                   name="phone"
+                                   placeholder="Contoh : 08123456789"
+                                   required>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Tanggal Lahir *
+                                </label>
+
+                                <input type="date"
+                                       class="form-control"
+                                       name="birth_date"
+                                       id="birth_date"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Usia
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       name="age"
+                                       id="age"
+                                       readonly>
+                            </div>
+
+                        </div>
+
+                        <!-- ========================= -->
+                        <!-- PENDIDIKAN -->
+                        <!-- ========================= -->
+
+                        <h4 class="fw-bold mt-4 mb-4">
+                            Pendidikan Terakhir
+                        </h4>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Pendidikan Terakhir *
+                            </label>
+
+                            <select class="form-select"
+                                    name="education"
+                                    required>
+
+                                <option value="">
+                                    Pilih Satu ...
+                                </option>
+
+                                <option>SMA / SMK</option>
+                                <option>D3</option>
+                                <option>S1</option>
+                                <option>S2</option>
+                                <option>S3</option>
+
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Nama Sekolah / Universitas *
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="school_name"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Jurusan *
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="major"
+                                   required>
+                        </div>
+
+                        <!-- ========================= -->
+                        <!-- PEKERJAAN -->
+                        <!-- ========================= -->
+
+                        <h4 class="fw-bold mt-4 mb-4">
+                            Pekerjaan Terakhir
+                        </h4>
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-bold">
+                                Apakah Anda sudah pernah bekerja sebelumnya?
+                            </label>
+
+                            <div class="d-flex gap-2 mt-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="has_experience"
+                                           value="no"
+                                           checked>
+
+                                    <label class="form-check-label">
+                                        Tidak
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="has_experience"
+                                           value="yes">
+
+                                    <label class="form-check-label">
+                                        Ya
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="experience_fields">
+
+                            <!-- COMPANY -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Nama Perusahaan (Terakhir)
+                                </label>
+
+                                <input type="text"
+                                    class="form-control"
+                                    name="company_name">
+
+                            </div>
+
+                            <!-- POSITION -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Jabatan
+                                </label>
+
+                                <input type="text"
+                                    class="form-control"
+                                    name="position">
+
+                            </div>
+
+                            <!-- DATE -->
+                            <div class="row">
+
+                                <!-- START DATE -->
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">
+                                        Tanggal Mulai Bekerja
+                                    </label>
+
+                                    <input type="date"
+                                        class="form-control"
+                                        name="work_start">
+
+                                </div>
+
+                                <!-- END DATE -->
+                                <div class="col-md-6 mb-3"
+                                    id="work_end_section">
+
+                                    <label class="form-label">
+                                        Tanggal Selesai Bekerja
+                                    </label>
+
+                                    <input type="date"
+                                        class="form-control"
+                                        name="work_end">
+
+                                </div>
+
+                            </div>
+
+                            <!-- STILL WORKING -->
+                            <div class="form-check mb-3">
+
+                                <input class="form-check-input"
+                                    type="checkbox"
+                                    id="still_working"
+                                    name="still_working"
+                                    value="yes">
+
+                                <label class="form-check-label"
+                                    for="still_working">
+
+                                    Masih Bekerja
+
+                                </label>
+
+                            </div>
+
+                            <!-- WORK DURATION -->
+                            <div class="mb-3"
+                                id="work_duration_section">
+
+                                <label class="form-label">
+                                    Lama Bekerja
+                                </label>
+
+                                <input type="text"
+                                    class="form-control"
+                                    name="work_duration"
+                                    readonly>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ========================= -->
+                        <!-- CV -->
+                        <!-- ========================= -->
+
+                        <h4 class="fw-bold mt-4 mb-4">
+                            CV
+                        </h4>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Upload CV *
+                            </label>
+
+                            <input type="file"
+                                   class="form-control"
+                                   id="cv"
+                                   name="cv"
+                                   accept=".pdf"
+                                   required>
+
+                            <div class="form-text">
+                                PDF maksimal 5MB
+                            </div>
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <button type="submit"
+                                class="btn btn-success w-100">
+
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Submit Application
+
+                        </button>
+
+                        <a href="{{ url_for('index') }}"
+                           class="btn btn-outline-secondary w-100 mt-2">
+
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Kembali
+
+                        </a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- SCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+document.getElementById('birth_date').addEventListener('change', function() {
+
+    const birthDate = new Date(this.value);
+
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+        monthDiff < 0 ||
+        (
+            monthDiff === 0 &&
+            today.getDate() < birthDate.getDate()
+        )
+    ) {
+        age--;
+    }
+
+    document.getElementById('age').value = age;
+});
+
+document.querySelector('form').addEventListener('submit', function(e) {
+
+    const fileInput = document.getElementById('cv');
+
+    const file = fileInput.files[0];
+
+    const maxSize = 5 * 1024 * 1024;
+
+    if (file && file.size > maxSize) {
+
+        e.preventDefault();
+
+        alert(
+            'File terlalu besar. Maksimal ukuran file adalah 5MB.'
+        );
+
+        return false;
+    }
+});
+
+
+/* =========================
+   TOGGLE EXPERIENCE FIELD
+========================= */
+
+const experienceRadios = document.querySelectorAll(
+    'input[name="has_experience"]'
+);
+
+const experienceFields = document.getElementById(
+    'experience_fields'
+);
+
+function toggleExperienceFields() {
+
+    const selected = document.querySelector(
+        'input[name="has_experience"]:checked'
+    ).value;
+
+    if (selected === 'no') {
+
+        experienceFields.style.display = 'none';
+
+        // reset input
+        experienceFields
+            .querySelectorAll('input')
+            .forEach(input => {
+
+                if (input.type === 'checkbox') {
+
+                    input.checked = false;
+
+                } else {
+
+                    input.value = '';
+                }
+            });
+
+    } else {
+
+        experienceFields.style.display = 'block';
+    }
+}
+
+// jalankan pertama kali
+toggleExperienceFields();
+
+// event radio button
+experienceRadios.forEach(radio => {
+
+    radio.addEventListener(
+        'change',
+        toggleExperienceFields
+    );
+
+});
+
+function calculateWorkDuration() {
+
+    const start = document.querySelector(
+        'input[name="work_start"]'
+    ).value;
+
+    const end = document.querySelector(
+        'input[name="work_end"]'
+    ).value;
+
+    const durationField = document.querySelector(
+        'input[name="work_duration"]'
+    );
+
+    if (!start || !end) {
+
+        durationField.value = '';
+
+        return;
+    }
+
+    const startDate = new Date(start);
+
+    const endDate = new Date(end);
+
+    let years = endDate.getFullYear() - startDate.getFullYear();
+
+    let months = endDate.getMonth() - startDate.getMonth();
+
+    if (months < 0) {
+
+        years--;
+
+        months += 12;
+    }
+
+    let result = '';
+
+    if (years > 0) {
+        result += `${years} Tahun `;
+    }
+
+    if (months > 0) {
+        result += `${months} Bulan`;
+    }
+
+    durationField.value = result || '0 Bulan';
+}
+
+document.querySelector(
+    'input[name="work_start"]'
+).addEventListener(
+    'change',
+    calculateWorkDuration
+);
+
+document.querySelector(
+    'input[name="work_end"]'
+).addEventListener(
+    'change',
+    calculateWorkDuration
+);
+
+/* =========================
+   STILL WORKING CHECKBOX
+========================= */
+
+const stillWorkingCheckbox = document.getElementById(
+    'still_working'
+);
+
+const workEndSection = document.getElementById(
+    'work_end_section'
+);
+
+const workDurationSection = document.getElementById(
+    'work_duration_section'
+);
+
+stillWorkingCheckbox.addEventListener('change', function() {
+
+    const workEndInput = document.querySelector(
+        'input[name="work_end"]'
+    );
+
+    const durationInput = document.querySelector(
+        'input[name="work_duration"]'
+    );
+
+    if (this.checked) {
+
+        workEndSection.style.display = 'none';
+
+        workDurationSection.style.display = 'none';
+
+        workEndInput.value = '';
+
+        durationInput.value = '';
+
+    } else {
+
+        workEndSection.style.display = 'block';
+
+        workDurationSection.style.display = 'block';
+    }
+});
+</script>
+
+{% endblock %}

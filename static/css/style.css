@@ -1,0 +1,116 @@
+/* HERO */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 0;
+}
+
+/* JOB CARD */
+.job-card {
+    border-radius: 16px;
+    transition: all 0.25s ease;
+    border: 1px solid #f1f1f1;
+    margin-bottom: 20px;
+}
+
+.job-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* NAVBAR */
+.navbar {
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.navbar-brand {
+    color: #111827 !important;
+}
+
+.navbar-brand:hover {
+    color: #4f46e5 !important;
+}
+
+.nav-link {
+    color: #374151 !important;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #4f46e5 !important;
+}
+
+/* BODY */
+body {
+    padding-top: 55px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9fafb;
+}
+
+/* BUTTON */
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    border: none;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* TYPOGRAPHY */
+h2 {
+    font-weight: 600;
+}
+
+/* CARD ACCENT */
+.job-card::before {
+    content: "";
+    display: block;
+    height: 4px;
+    border-radius: 16px 16px 0 0;
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+}
+
+.section-title {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    position: relative;
+}
+
+.section-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #6366f1;
+    margin: 10px auto 0;
+    border-radius: 10px;
+}
+
+.gradient-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.card-header {
+    border: none;
+    padding: 12px 16px;
+    font-weight: 500;
+}
+
+footer {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border-top: 1px solid #e5e7eb;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}

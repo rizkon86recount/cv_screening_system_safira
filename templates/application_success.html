@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6">
+            <div class="card shadow text-center">
+                <div class="card-body py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 80px;"></i>
+                    </div>
+                    <h2 class="text-success">Application Submitted!</h2>
+                    <p class="lead">Terima kasih <strong>{{ applicant.name }}</strong> telah melamar!</p>
+                    <p>CV mu akan diproses secara otomatis oleh sistem screening kami menggunakan teknologi AI</p>
+                    <p class="text-muted">Kami akan menghubungi kembali melalui email jika profil mu sesuai dengan kebutuhan perusahaan</p>
+                    <div class="mt-4">
+                        <a href="{{ url_for('index') }}" class="btn btn-primary">
+                            <i class="fas fa-home me-2"></i>Kembali ke Halaman Utama
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

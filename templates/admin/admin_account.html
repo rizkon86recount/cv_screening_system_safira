@@ -1,0 +1,142 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Ganti Password</h1>
+</div>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="mb-3">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-triangle' }} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="row">
+    <!-- Form Ganti Password - md-6 (Kiri) -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-key me-2"></i>Ganti Password</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('admin_account') }}">
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user me-1"></i>Username
+                        </label>
+                        <input type="username" class="form-control" id="username" 
+                               name="username" required 
+                               placeholder="{{ current_user.username }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">
+                            <i class="fas fa-lock me-1"></i>Password Baru
+                        </label>
+                        <input type="password" class="form-control" id="new_password" 
+                               name="new_password" minlength="6" required
+                               placeholder="Minimal 6 karakter">
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>Minimal 6 karakter
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Simpan Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer bg-light">
+                <small class="text-muted">
+                    <i class="fas fa-clock me-1"></i>Terakhir diubah: 
+                    {% if current_user.updated_at %}
+                        {{ current_user.updated_at.replace(hour=current_user.updated_at.hour+7).strftime('%d %b %Y %H:%M') }}
+                    {% else %}
+                        Belum pernah diubah
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips Keamanan - md-6 (Kanan) -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Tips Keamanan Password</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Best Practices -->
+                    <div class="col-12 mb-4">
+                        <h6><i class="fas fa-check-circle me-2 text-warning"></i>Best Practices:</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Gunakan kombinasi huruf, angka, dan simbol
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Jangan gunakan password yang mudah ditebak
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Ganti password secara berkala (setiap 3 bulan)
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Jangan bagikan password ke siapapun
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <small class="text-muted">
+                    <i class="fas fa-user-shield me-1"></i>
+                    Keamanan akun adalah tanggung jawab bersama
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Info Admin -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-secondary text-white">
+                <h6 class="mb-0"><i class="fas fa-user-circle me-2"></i>Informasi Akun</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong><i class="fas fa-user me-2"></i>Username:</strong><br>
+                        <code>{{ current_user.username }}</code>
+                    </div>
+                    <div class="col-md-4">
+                        <strong><i class="fas fa-envelope me-2"></i>Email:</strong><br>
+                        {{ current_user.email or 'Belum diatur' }}
+                    </div>
+                    <div class="col-md-4">
+                        <strong><i class="fas fa-calendar me-2"></i>Bergabung:</strong><br>
+                        {{ current_user.created_at.strftime('%d %b %Y') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

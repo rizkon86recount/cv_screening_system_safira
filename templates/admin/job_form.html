@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        {% if job %}Edit Lowongan{% else %}Tambah Lowongan Baru{% endif %}
+    </h1>
+    <a href="{{ url_for('admin_jobs') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Kembali
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label for="title" class="form-label">Judul Lowongan *</label>
+                    <input type="text" class="form-control" id="title" name="title" 
+                           value="{{ job.title if job }}" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Deskripsi Pekerjaan *</label>
+                <textarea class="form-control" id="description" name="description" 
+                          rows="5" required>{{ job.description if job }}</textarea>
+                <div class="form-text">Jelaskan secara singkat tentang pekerjaan ini.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="responsibilities" class="form-label">Tanggung Jawab *</label>
+                <textarea class="form-control" id="responsibilities" name="responsibilities" 
+                          rows="6" required>{{ job.responsibilities if job }}</textarea>
+                <div class="form-text">
+                    Tulis responsibilities dengan format bullet points. Contoh:<br>
+                    - Mengembangkan dan mengeksekusi strategi digital marketing<br>
+                    - Mengelola KOL dan influencer untuk mendukung campaign<br>
+                    - dan lainnya
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="requirements" class="form-label">Persyaratan *</label>
+                <textarea class="form-control" id="requirements" name="requirements" 
+                          rows="6" required>{{ job.requirements if job }}</textarea>
+                <div class="form-text">
+                    Tulis persyaratan dengan format bullet points. Contoh:<br>
+                    - Lulusan S1<br>
+                    - Pengalaman 2+ tahun di bidang digital marketing <br>
+                    - dan lainnya
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
+                           {% if not job or job.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">
+                        Lowongan Aktif (dapat dilihat pelamar)
+                    </label>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('admin_jobs') }}" class="btn btn-secondary me-md-2">
+                    <i class="fas fa-times me-1"></i>Batal
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i>
+                    {% if job %}Update Lowongan{% else %}Simpan Lowongan{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

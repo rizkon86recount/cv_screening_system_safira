@@ -1,0 +1,230 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Pelamar</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_applicants }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Total Lowongan</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_jobs }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-briefcase fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Lowongan Aktif</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ active_jobs }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Pelamar 30 Hari</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ recent_applicants }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row">
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">Statistik Pelamar 6 Bulan Terakhir</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="applicantsChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Distribusi Lowongan</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="jobsChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Applicants -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">10 Pelamar Terbaru</h6>
+        <a href="{{ url_for('admin_applicants') }}" class="btn btn-primary btn-sm">Lihat Semua</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Lowongan</th>
+                        <th>Tanggal Apply</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for applicant in recent_applicants_list %}
+                    <tr>
+                        <td>{{ applicant.name }}</td>
+                        <td>{{ applicant.email }}</td>
+                        <td>
+                            {% if applicant.job %}
+                                {{ applicant.job.title }}
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ applicant.applied_at.strftime('%d %b %Y') }}</td>
+                        <td>
+                            <a href="{{ url_for('admin_view_applicant', applicant_id=applicant.id) }}" 
+                               class="btn btn-info btn-sm">
+                                <i class="fas fa-eye me-1"></i>View
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Belum ada pelamar</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Export Section -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Export Data</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <a href="{{ url_for('export_applicants_excel') }}" class="btn btn-success w-100">
+                    <i class="fas fa-file-excel me-2"></i>Export ke Excel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Load chart data
+fetch('/api/dashboard/stats')
+    .then(response => response.json())
+    .then(data => {
+        // Applicants Chart
+        const applicantsCtx = document.getElementById('applicantsChart').getContext('2d');
+        new Chart(applicantsCtx, {
+            type: 'bar',
+            data: {
+                labels: data.monthly_applicants.map(item => item.month),
+                datasets: [{
+                    label: 'Jumlah Pelamar',
+                    data: data.monthly_applicants.map(item => item.count),
+                    backgroundColor: 'rgba(78, 115, 223, 0.8)',
+                    borderColor: 'rgb(78, 115, 223)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Jobs Chart
+        const jobsCtx = document.getElementById('jobsChart').getContext('2d');
+        new Chart(jobsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: data.job_distribution.map(item => item.job),
+                datasets: [{
+                    data: data.job_distribution.map(item => item.count),
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error loading chart data:', error);
+    });
+</script>
+{% endblock %}

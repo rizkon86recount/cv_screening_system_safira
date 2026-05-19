@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <!-- LOGIN -->
+    <div class="login-card">
+        <div class="login-title">
+            <i class="fas fa-lock"></i>
+            <h5>Login</h5>
+        </div>
+
+        <!-- 🔥 TAMBAHKAN DI SINI -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert 
+                {% if category == 'success' %} alert-success
+                {% elif category == 'error' %} alert-danger
+                {% elif category == 'warning' %} alert-warning
+                {% else %} alert-info {% endif %}
+                alert-dismissible fade show" role="alert">
+                
+                {{ message }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- 🔥 SAMPAI SINI -->
+
+        <form method="POST">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+
+            <button class="btn btn-login w-100">Login</button>
+        </form>
+
+        <div class="footer-link">
+            <a href="{{ url_for('index') }}" class="text-muted">
+                ← Kembali ke Homepage
+            </a>
+        </div>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -415,7 +415,8 @@ def create_app():
             except ValueError:
                 flash('Format tanggal akhir tidak valid.', 'warning')
 
-        applicants = Applicant.query.order_by(Applicant.applied_at.desc()).all()
+       # applicants = Applicant.query.order_by(Applicant.applied_at.desc()).all()
+        applicants = query.order_by(Applicant.applied_at.desc()).all()
         
         # Get screening results
         applicant_ids = [app.id for app in applicants]

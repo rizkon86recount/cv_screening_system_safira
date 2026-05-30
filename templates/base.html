@@ -23,7 +23,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-search"></i> Recruitment System
+                <img src="{{ url_for('static', filename='img/logo.png') }}"
+                    alt="BSL Hire"
+                    height="50">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -70,9 +72,120 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-5 py-4">
-        <div class="container text-center">
-            <p>&copy; 2026 BSL Hire System. All rights reserved.</p>
+    <footer class="footer-section">
+        <div class="container">
+
+            <div class="row">
+
+                <!-- Kolom 1 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <img src="{{ url_for('static', filename='img/footer.png') }}"
+                        alt="BSL Hire"
+                        height="100"
+                        class="mb-3">
+
+                    <p>
+                        BSL Hire merupakan platform rekrutmen yang membantu
+                        perusahaan menemukan kandidat terbaik melalui proses
+                        seleksi yang lebih cepat, efisien, dan objektif.
+                    </p>
+                </div>
+
+                <!-- Kolom 2 -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Kontak Kami</h5>
+
+                    <p>
+                        <i class="fas fa-envelope me-2"></i>
+                        info@cocoland.id
+                    </p>
+
+                    <p>
+                        <i class="fas fa-phone me-2"></i>
+                        +62 895-2982-1727
+                    </p>
+
+                    <p>
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Jakarta, Indonesia
+                    </p>
+
+                    <p>
+                        <i class="fas fa-globe me-2"></i>
+                        <a href="https://www.cocoland.co.id/"
+                        target="_blank"
+                        class="footer-link">
+                        Cocoland
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Kolom 3 -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Menu</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ url_for('index') }}">
+                                Lowongan
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ url_for('admin_login') }}">
+                                Admin Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 4 -->
+                <div class="col-lg-3 mb-4">
+                    <h4>Social Media</h4>
+
+                    <div class="social-icons">
+
+                        <a href="https://www.instagram.com/cocoland.official/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-btn instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+
+                        <a href="https://id.linkedin.com/company/pt-bahagia-sukses-lestari?trk=ppro_cprof"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-btn linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/channel/UC-p60cyovmEWHHpZu4UQCXQ/videos"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-btn youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+
+                        <a href="https://www.facebook.com/Cocoland.Interactive.Games.Centre"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="text-center">
+                <p class="mb-0">
+                    © 2026 BSL Hire System. All Rights Reserved.
+                </p>
+            </div>
+
         </div>
     </footer>
 

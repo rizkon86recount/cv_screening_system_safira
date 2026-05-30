@@ -6,11 +6,13 @@
 }
 
 /* JOB CARD */
-.job-card {
-    border-radius: 16px;
-    transition: all 0.25s ease;
-    border: 1px solid #f1f1f1;
-    margin-bottom: 20px;
+.job-card{
+    border: none;
+    border-top: 2px solid #5B5BEF;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .job-card:hover {
@@ -104,13 +106,81 @@ h2 {
     font-weight: 500;
 }
 
-footer {
-    background-color: #f3f4f6;
-    color: #4b5563;
-    border-top: 1px solid #e5e7eb;
+.hero-img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
 }
 
-footer p {
-    margin: 0;
-    font-size: 14px;
+.footer-section{
+    background:#001b3a;
+    color:white;
+    padding:40px 0 15px;
+    margin-top:80px;
+}
+
+.footer-section h5{
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.footer-section p,
+.footer-section li,
+.footer-section a{
+    color:rgba(255,255,255,.8);
+    text-decoration:none;
+    margin-bottom:10px;
+}
+
+.footer-section a:hover{
+    color:white;
+}
+
+.footer-section hr{
+    border-color:rgba(255,255,255,.2);
+    margin-top:20px;
+}
+
+.social-icons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.social-btn{
+    width:45px;
+    height:45px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.social-btn i{
+    font-size:25px;
+}
+
+.social-btn.instagram{
+    background:#E4405F;
+}
+
+.social-btn.linkedin{
+    background:#0077B5;
+}
+
+.social-btn.youtube{
+    background:#FF0000;
+}
+
+.social-btn.facebook{
+    background:#1877F2;
+}
+
+.social-btn:hover{
+    transform:translateY(-5px);
+    color:white;
 }

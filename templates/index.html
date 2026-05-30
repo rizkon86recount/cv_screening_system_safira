@@ -1,14 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <!-- Hero Section -->
 <div class="hero-section">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 mb-4">Recruitment System</h1>
-                <p class="lead">Smart recruitment starts with intelligent CV screening</p>
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3">
+                    We Are Hiring
+                </h1>
+
+                <p class="lead">
+                    Kami percaya bahwa setiap talenta memiliki potensi untuk
+                    memberikan dampak besar. Temukan posisi yang sesuai dan
+                    jadilah bagian dari perjalanan kami.
+                </p>
             </div>
+
+            <div class="col-lg-4 text-center">
+                <img src="{{ url_for('static', filename='img/recruitment.png') }}"
+                    class="img-fluid hero-img"
+                    alt="Recruitment AI">
+            </div>
+
         </div>
     </div>
 </div>
@@ -16,7 +33,26 @@
 <!-- Jobs Section -->
 <div class="container">
     <h2 class="text-center section-title">Lowongan Tersedia</h2>
-    
+
+    <!-- Search Bar -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-6">
+            <form method="GET" action="{{ url_for('index') }}">
+                <div class="input-group">
+                    <input type="text"
+                        class="form-control search-input"
+                        name="search"
+                        value="{{ search if search else '' }}"
+                        placeholder="Cari pekerjaan...">
+
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     {% if jobs %}
         <div class="row g-4">
             {% for job in jobs %}

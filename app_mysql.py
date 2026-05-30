@@ -83,8 +83,20 @@ def create_app():
     # ===== PUBLIC ROUTES =====
     @app.route('/')
     def index():
-        jobs = Job.query.filter_by(is_active=True).order_by(Job.created_at.desc()).all()
-        return render_template('index.html', jobs=jobs)
+        search = request.args.get('search', '')
+        query = Job.query.filter_by(is_active=True)
+        if search:
+            search_term = f"%{search}%"
+            query = query.filter(
+                (Job.title.ilike(search_term)) |
+                (Job.description.ilike(search_term))
+            )
+        jobs = query.order_by(Job.created_at.desc()).all()
+        return render_template(
+            'index.html',
+            jobs=jobs,
+            search=search
+        )
     
     @app.route('/apply/<int:job_id>', methods=['GET', 'POST'])
     def apply_job(job_id):
